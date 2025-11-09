@@ -14,12 +14,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-            arg("room.incremental", "true")
-            arg("room.generateKotlin", "true")
-        }
     }
 
     buildTypes {
@@ -40,12 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+}
 
-    sourceSets {
-        getByName("main").java.srcDirs("build/generated/ksp/main/kotlin")
-        getByName("debug").java.srcDirs("build/generated/ksp/debug/kotlin")
-        getByName("release").java.srcDirs("build/generated/ksp/release/kotlin")
-    }
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 dependencies {
@@ -58,10 +50,13 @@ dependencies {
 
     // Room Database
     val roomVersion = "2.6.1"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
+    api("androidx.room:room-runtime:$roomVersion")
+    api("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.room:room-common:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
+
+    // Ensure Room annotations are available
+    compileOnly("androidx.annotation:annotation:1.7.1")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
