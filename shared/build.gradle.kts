@@ -14,6 +14,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+            arg("room.incremental", "true")
+            arg("room.generateKotlin", "true")
+        }
     }
 
     buildTypes {
@@ -34,6 +40,12 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    sourceSets {
+        getByName("main").java.srcDirs("build/generated/ksp/main/kotlin")
+        getByName("debug").java.srcDirs("build/generated/ksp/debug/kotlin")
+        getByName("release").java.srcDirs("build/generated/ksp/release/kotlin")
+    }
 }
 
 dependencies {
@@ -48,6 +60,7 @@ dependencies {
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-common:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
 
     // Testing
