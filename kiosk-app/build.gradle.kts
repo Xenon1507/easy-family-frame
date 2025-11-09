@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.easyfamilyframe.kiosk"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.easyfamilyframe.kiosk"
         minSdk = 23
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
 
